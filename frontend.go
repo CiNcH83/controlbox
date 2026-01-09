@@ -194,12 +194,8 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-}
-
 func serveWs(h *controlbox, w http.ResponseWriter, r *http.Request) {
-	enableCors(&w)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -210,28 +206,27 @@ func serveWs(h *controlbox, w http.ResponseWriter, r *http.Request) {
 	frontend = WebsocketClient{
 		websocket: ws}
 
-	log.Println("Client Connected")
-
 	frontend.sendServiceList(GetServiceList, h.currentRemoteServices)
 
 	sendData(h, "", "")
 
-	reader(h, ws)
+	if err := reader(h, ws); err != nil {
+		log.Println(err)
+	}
 }
 
-func reader(h *controlbox, ws *websocket.Conn) {
+func reader(h *controlbox, ws *websocket.Conn) error {
 	for {
 		// read in a message
 		_, p, err := ws.ReadMessage()
 		if err != nil {
-			log.Println(err)
-			return
+			return err
 		}
-		// print out that message for clarity
-		//fmt.Println(string(p))
 
-		data := Message{}
-		json.Unmarshal([]byte(p), &data)
+		var data Message
+		if err := json.Unmarshal([]byte(p), &data); err != nil {
+			return err
+		}
 
 		switch data.Type {
 		case GetServiceList:

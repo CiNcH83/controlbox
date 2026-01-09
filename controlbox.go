@@ -174,23 +174,12 @@ func (h *controlbox) ServiceShipIDUpdate(ski string, shipdID string) {
 }
 
 func (h *controlbox) ServicePairingDetailUpdate(ski string, detail *shipapi.ConnectionStateDetail) {
-	// states := []string{"ConnectionStateNone", "ConnectionStateQueued", "ConnectionStateInitiated",
-	// 	"ConnectionStateReceivedPairingRequest", "ConnectionStateInProgress", "ConnectionStateTrusted",
-	// 	"ConnectionStatePin", "ConnectionStateCompleted", "ConnectionStateRemoteDeniedTrust", "ConnectionStateError",
-	// }
-
-	// if detail.Error() == nil {
-	// 	fmt.Println("ServicePairingDetailUpdate: " + ski + ", " + states[detail.State()])
-	// } else {
-	// 	fmt.Println("ServicePairingDetailUpdate: " + ski + ", " + states[detail.State()] + ", " + detail.Error().Error())
-	// }
-
 	if ski == remoteSki && detail.State() == shipapi.ConnectionStateRemoteDeniedTrust {
 		fmt.Println("The remote service denied trust. Exiting.")
 		h.myService.CancelPairingWithSKI(ski)
 		h.myService.UnregisterRemoteSKI(ski)
 		h.myService.Shutdown()
-		os.Exit(0)
+		os.Exit(1)
 	}
 
 	frontend.sendNotification("", ServiceListChanged, "")
