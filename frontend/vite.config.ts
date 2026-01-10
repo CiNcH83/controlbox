@@ -3,11 +3,11 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
-  root: "./frontend",
+  //root: "./frontend",
   publicDir: "public",
-  base: "./",
+  //base: "./",
   build: {
-    outDir: "../dist/",
+    outDir: "./dist/",
     emptyOutDir: true,
   },
   server: {

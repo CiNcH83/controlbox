@@ -23,5 +23,6 @@ go.work
 
 # node files
 node_modules
-/examples/controlbox/dist
 __debug_bin*
+/frontend/dist
+/frontend/package-lock.json
