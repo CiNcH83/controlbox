@@ -26,3 +26,5 @@ node_modules
 __debug_bin*
 /frontend/dist
 /frontend/package-lock.json
+/crt
+/key
