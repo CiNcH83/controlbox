@@ -26,7 +26,14 @@ func (websocketClient *WebsocketClient) sendMessage(msg interface{}) error {
 
 	err := websocketClient.websocket.WriteJSON(msg)
 	if err != nil {
-		log.Println(err)
+		if !websocket.IsCloseError(err,
+			websocket.CloseNormalClosure,
+			websocket.CloseGoingAway,
+			websocket.CloseNoStatusReceived,
+		) {
+			log.Println("websocket write error:", err)
+		}
+		websocketClient.websocket = nil
 	}
 
 	return err
