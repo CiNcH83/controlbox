@@ -92,6 +92,10 @@ type Message struct {
 }
 
 func readData(h *controlbox, entity spineapi.EntityRemoteInterface, ucs []string) {
+	if entity == nil || entity.Device() == nil {
+		return
+	}
+
 	ski := entity.Device().Ski()
 
 	if (ucs == nil || slices.Contains(ucs, "LPC")) && slices.Contains(h.remoteInfos[ski].UseCases, "LPC") {

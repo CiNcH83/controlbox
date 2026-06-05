@@ -318,6 +318,10 @@ func (h *controlbox) readConsumptionNominalMax(entity spineapi.EntityRemoteInter
 }
 
 func (h *controlbox) OnLPCEvent(ski string, device spineapi.DeviceRemoteInterface, entity spineapi.EntityRemoteInterface, event api.EventType) {
+	if entity == nil {
+		return
+	}
+
 	fmt.Println("--> LPC Event: " + string(event) + " from " + ski)
 	connected, exists := h.isConnected[ski]
 	if !exists || !connected {
