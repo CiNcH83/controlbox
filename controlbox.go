@@ -318,6 +318,10 @@ func (h *controlbox) readConsumptionNominalMax(entity spineapi.EntityRemoteInter
 }
 
 func (h *controlbox) OnLPCEvent(ski string, device spineapi.DeviceRemoteInterface, entity spineapi.EntityRemoteInterface, event api.EventType) {
+	if entity == nil {
+		return
+	}
+
 	fmt.Println("--> LPC Event: " + string(event) + " from " + ski)
 	connected, exists := h.isConnected[ski]
 	if !exists || !connected {
@@ -434,6 +438,10 @@ func (h *controlbox) readProductionNominalMax(entity spineapi.EntityRemoteInterf
 }
 
 func (h *controlbox) OnLPPEvent(ski string, device spineapi.DeviceRemoteInterface, entity spineapi.EntityRemoteInterface, event api.EventType) {
+	if entity == nil {
+		return
+	}
+
 	fmt.Println("--> LPP Event: " + string(event) + " from " + ski)
 	connected, exists := h.isConnected[ski]
 	if !exists || !connected {
@@ -504,6 +512,10 @@ func (h *controlbox) OnLPPEvent(ski string, device spineapi.DeviceRemoteInterfac
 }
 
 func (h *controlbox) OnMGCPEvent(ski string, device spineapi.DeviceRemoteInterface, entity spineapi.EntityRemoteInterface, event api.EventType) {
+	if entity == nil {
+		return
+	}
+
 	fmt.Println("--> MGCP Event: " + string(event) + " from " + ski)
 	connected, exists := h.isConnected[ski]
 	if !exists || !connected {
@@ -555,6 +567,10 @@ func (h *controlbox) OnMGCPEvent(ski string, device spineapi.DeviceRemoteInterfa
 }
 
 func (h *controlbox) OnMPCEvent(ski string, device spineapi.DeviceRemoteInterface, entity spineapi.EntityRemoteInterface, event api.EventType) {
+	if entity == nil {
+		return
+	}
+
 	fmt.Println("--> MPC Event: " + string(event) + " from " + ski)
 	connected, exists := h.isConnected[ski]
 	if !exists || !connected {
